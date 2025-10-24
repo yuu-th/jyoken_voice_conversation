@@ -15,15 +15,21 @@ class LLM:
     
     def __init__(self):
         """初期化"""
-        load_dotenv()
-        self.api_key = os.getenv("GEMINI_API_KEY")
-        
         # Gemini APIの設定
         # TODO: genai.configureの実装
-        
+        load_dotenv()
+        self.api_key = os.getenv("GEMINI_API_KEY")
+        genai.configure(api_key = self.api_key)
+
         # モデルの初期化
         # TODO: モデルの選択と初期化
-        
+        self.model_name = os.getenv("MODEL_NAME")
+        self.chat = genai.GenerativeModel(self.model_name).start_chat(
+            history = [
+                {"role": "user", "parts": [""]}
+            ]
+        )
+
         # 会話履歴
         self.conversation_history: List[dict] = []
         
@@ -43,8 +49,11 @@ class LLM:
         # TODO: Gemini APIの呼び出し
         # TODO: 応答の取得と整形
         # TODO: 会話履歴の更新
+
+        prompt = ""
+        response = self.chat.send_message(f"{prompt}{user_input}")
         
-        return ""  # プレースホルダー
+        return response.text  # プレースホルダー
     
     def reset_conversation(self):
         """会話履歴をリセット"""
@@ -59,3 +68,16 @@ class LLM:
             会話履歴のリスト
         """
         return self.conversation_history
+    
+if __name__ == "__main__":
+    """デバック用コード"""
+    llm = LLM()
+    while True:
+        user_input = input("あなた： ")
+
+        if user_input.lower() in ["exit", "quit", "終了", "やめる"]:
+            print("会話を終了します。")
+            break
+        
+        response = llm.call(user_input)
+        print(f"AI： {response}")
