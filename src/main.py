@@ -27,8 +27,9 @@ class MainProcess:
         
         # LLMとSpeakerの初期化
         self.llm = LLM()
-        self.speaker = Speaker()
         
+        self.speaker = Speaker()
+
         # hearingプロセス
         self.hearing_process: Optional[HearingProcess] = None
         
