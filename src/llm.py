@@ -81,5 +81,3 @@ if __name__ == "__main__":
         
         response = llm.call(user_input)
         print(f"AI： {response}")
-
-#こちらがコードです。
