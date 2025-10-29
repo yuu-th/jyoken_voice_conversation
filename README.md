@@ -30,6 +30,21 @@ Windowsの場合、以下のコマンドをPowerShellで実行します。
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
+## FFmpegのインストール（Windows）
+
+このプロジェクトでは音声処理やフォーマット変換のためにFFmpegが必要になることがあります。WindowsではMicrosoft Storeではなく、winget（Windows Package Manager）を使って簡単にインストールできます。PowerShellまたは管理者権限のあるコマンドプロンプトで以下を実行してください：
+
+```powershell
+winget install --id=FFmpeg.FFmpeg -e --source=winget
+```
+
+インストール後、パスが通っているか確認するために以下を実行してください：
+
+```powershell
+ffmpeg -version
+```
+
+
 ## プロジェクト構造
 ```
 jyoken_voice_conversation/

@@ -1,6 +1,19 @@
 # 開発ガイド
 
 ## 開発環境のセットアップ
+### 前提: FFmpeg (Windows)
+
+このプロジェクトでは音声ファイル操作やフォーマット変換にFFmpegが必要になる場合があります。Windows環境では `winget` を使ってインストールできます。PowerShellまたは管理者権限のあるコマンドプロンプトで次のコマンドを実行してください：
+
+```powershell
+winget install --id=FFmpeg.FFmpeg -e --source=winget
+```
+
+インストール確認:
+
+```powershell
+ffmpeg -version
+```
 
 ### 1. 依存関係のインストール
 ```bash

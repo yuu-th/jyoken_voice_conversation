@@ -129,8 +129,11 @@ class HearingProcess:
             sentence = result.channel.alternatives[0].transcript
             if len(sentence) == 0:
                 return
-            print(f"speaker: {sentence}")
-            text_queue.put(sentence)
+            if result.is_final:
+                print(f"Final result: {sentence}")
+                text_queue.put(sentence)
+            else:
+                print(f"Interim result: {sentence}")
 
         # def on_metadata(self, metadata, **kwargs):
         #     print(f"\n\n{metadata}\n\n")
@@ -138,22 +141,23 @@ class HearingProcess:
         # def on_speech_started(self, speech_started, **kwargs):
         #     print(f"\n\n{speech_started}\n\n")
 
-        # def on_utterance_end(self, utterance_end, **kwargs):
-        #     print(f"\n\n{utterance_end}\n\n")
-
+        def on_utterance_end(self, utterance_end, **kwargs):
+            text_queue.put("<utterance_end>")
         # def on_error(self, error, **kwargs):
         #     print(f"\n\n{error}\n\n")
 
         dg_connection.on(LiveTranscriptionEvents.Transcript, on_message)
         # dg_connection.on(LiveTranscriptionEvents.Metadata, on_metadata)
         # dg_connection.on(LiveTranscriptionEvents.SpeechStarted, on_speech_started)
-        # dg_connection.on(LiveTranscriptionEvents.UtteranceEnd, on_utterance_end)
+        dg_connection.on(LiveTranscriptionEvents.UtteranceEnd, on_utterance_end)
         # dg_connection.on(LiveTranscriptionEvents.Error, on_error)
 
         options: LiveOptions = LiveOptions(
-            model="nova-2",
+            # model="nova-2",
+            # language="ja",
+            model = "nova-3",
+            language="multi",
             punctuate=True,
-            language="ja",
             encoding="linear16",
             channels=1,
             sample_rate=16000,

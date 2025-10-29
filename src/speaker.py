@@ -91,6 +91,8 @@ class Speaker:
             # SDK が VoiceSettings をサポートしない場合は None にしておく
             self.voice_settings = None
 
-    def play_audio(self, text:str):
+    def say(self, text:str):
+        print("Speaker say:", text)
         audio = self.client.generate(text=text, voice=Voice(voice_id=self.voice_id,settings=self.voice_settings))
         play(audio, notebook=False)
+        

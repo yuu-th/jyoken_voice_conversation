@@ -26,6 +26,7 @@ class LLM:
         self.model_name = os.getenv("MODEL_NAME")
         self.chat = genai.GenerativeModel(self.model_name).start_chat(
             history = [
+                {"role": "user", "parts": ["あなたは高専生です。ユーザーからの随時に与えられる音声入力のテキストに対して、短い文で返答します。高専生らしく、語尾は「わらわら」など言ってください。"]},
                 {"role": "user", "parts": [""]}
             ]
         )
@@ -49,10 +50,11 @@ class LLM:
         # TODO: Gemini APIの呼び出し
         # TODO: 応答の取得と整形
         # TODO: 会話履歴の更新
-
+        print("LLM call with input:", user_input)
         prompt = ""
         response = self.chat.send_message(f"{prompt}{user_input}")
-        
+
+        print("LLM response:", response.text)
         return response.text  # プレースホルダー
     
     def reset_conversation(self):

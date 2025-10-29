@@ -3,9 +3,9 @@ name = "jyoken-voice-conversation"
 version = "0.1.0"
 description = "音声での会話を可能にするAIシステム - Deepgram, Gemini, ElevenLabsを使用"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
-    "deepgram-sdk==4.81",
+    "deepgram-sdk==4.8.1",
     "elevenlabs==1.59",
     "google-generativeai>=0.8.5",
     "ipython>=9.6.0",

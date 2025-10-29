@@ -59,13 +59,18 @@ class MainProcess:
         print("Main Process started")
 
         try:
+            current_text = ""
             while True:
+                
 
                 if not self.text_queue.empty():
                     text = self.text_queue.get()
+                    if text == "<utterance_end>" and len(current_text) > 0:
+                        self.process_text(current_text)
+                        current_text = ""
                     if text:
-                        self.process_text(text)
-                
+                        current_text += text
+
                 # プレースホルダー
                 time.sleep(0.1)
                 
@@ -79,10 +84,7 @@ class MainProcess:
         print("Cleaning up...")
         
         
-        if self.hearing_process and self.hearing_process.is_alive():
-            self.hearing_process.terminate()
-            self.hearing_process.join()
-
+        self.hearing_process.stop()
         if self.text_queue:
             self.text_queue.close()
             self.text_queue.join_thread()
